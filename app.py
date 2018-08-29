@@ -2,8 +2,10 @@
 from flask import Flask, render_template, request
 import random
 import csv
+from faker import Faker
 
 app = Flask(__name__)
+fake = Faker('ko_KR')
 
 @app.route("/")
 def index():
@@ -29,4 +31,13 @@ def admin():
     names = rr
     return render_template('admin.html',names=names)
     
-app.run(host='0.0.0.0', port='8080', debug=True)
+@app.route("/ffaker")
+def ffaker():
+    name = fake.name()
+    job=fake.job()
+    address = fake.address()
+    text = fake.text()
+    
+    return render_template('ffaker.html', name=name, address=address, text=text, job=job)
+
+#app.run(host='0.0.0.0', port='8080', debug=True)
